@@ -101,11 +101,11 @@ function Dashboard({ onLogout }) {
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
       <aside className="w-52 bg-[#0A2E23] text-white flex flex-col flex-shrink-0">
-        <div className="flex items-center gap-2 px-5 py-5 border-b border-white/10 font-black text-sm">
+        <div className="flex items-center gap-2 px-4 py-5 border-b border-white/10">
           <div className="w-8 h-8 bg-[#1D9E75] rounded-full flex items-center justify-center flex-shrink-0">
             <svg className="w-4 h-4 fill-white" viewBox="0 0 24 24"><path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 4.201 4.197 2 7.5 2c1.863 0 3.48.743 4.5 1.868C13.02 2.743 14.637 2 16.5 2 19.803 2 23 4.201 23 7.191c0 4.105-5.369 8.863-11 14.402z" /></svg>
           </div>
-          Kids Care
+          <span className="font-black text-xs leading-tight">Kids Care Clinic</span>
         </div>
         <nav className="flex-1 py-3">
           {[
@@ -192,16 +192,28 @@ function Dashboard({ onLogout }) {
                             <td className="px-5 py-3"><Badge status={b.status} /></td>
                             <td className="px-5 py-3">
                               <div className="flex gap-1">
-                                {b.status !== 'confirmed' && (
-                                  <button onClick={() => updateStatus(b.id, 'confirmed')}
-                                    className="px-2 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-lg hover:bg-green-200 border-none cursor-pointer">
-                                    Confirm
-                                  </button>
+                                {b.status === 'pending' && (
+                                  <>
+                                    <button onClick={() => updateStatus(b.id, 'confirmed')}
+                                      className="px-2 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-lg hover:bg-green-200 border-none cursor-pointer">
+                                      Confirm
+                                    </button>
+                                    <button onClick={() => updateStatus(b.id, 'cancelled')}
+                                      className="px-2 py-1 bg-red-100 text-red-800 text-xs font-bold rounded-lg hover:bg-red-200 border-none cursor-pointer">
+                                      Cancel
+                                    </button>
+                                  </>
                                 )}
-                                {b.status !== 'cancelled' && (
+                                {b.status === 'confirmed' && (
                                   <button onClick={() => updateStatus(b.id, 'cancelled')}
                                     className="px-2 py-1 bg-red-100 text-red-800 text-xs font-bold rounded-lg hover:bg-red-200 border-none cursor-pointer">
                                     Cancel
+                                  </button>
+                                )}
+                                {b.status === 'cancelled' && (
+                                  <button onClick={() => updateStatus(b.id, 'confirmed')}
+                                    className="px-2 py-1 bg-green-100 text-green-800 text-xs font-bold rounded-lg hover:bg-green-200 border-none cursor-pointer">
+                                    Restore
                                   </button>
                                 )}
                               </div>
